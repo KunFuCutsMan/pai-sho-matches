@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.kfcman"
-version = "0.0.1"
+version = "0.0.2"
 
 application {
     mainClass.set("com.kfcman.ApplicationKt")
@@ -25,4 +25,5 @@ repositories {
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
