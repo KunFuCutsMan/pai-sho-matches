@@ -1,7 +1,6 @@
 package com.kfcman.games
 
-import com.kfcman.models.GameNotationResponse
-import com.kfcman.models.GameType
+import com.kfcman.models.*
 
 private infix fun Boolean.then(f: () -> Unit) = if (this) {
 	f()
@@ -34,30 +33,36 @@ class GameTypeFactory {
 
 	fun getGameType(game: GameNotationResponse): GameType {
 
-		val thingy = object : GameType {
-			override val notation = ""
-			override val moves = arrayOf("")
-		}
+		var thingy: GameType? = null
 
 		game.notation.apply {
 			contains(skudRGX).then {
 				println("Skud Match")
+				thingy = SkudGame(this)
 			}
 			contains(vagabondRGX).then {
 				println("Vagabond Match")
+				thingy = VagavondGame(this)
 			}
 			contains(adevarRGX).then {
 				println("Adevar Match")
+				thingy = AdevarGame(this)
 			}
 			contains(fireRGX).then {
 				println("Fire Match")
+				thingy = FireGame(this)
 			}
 			contains(gingsengRGX).then {
 				println("Gingseng")
+				thingy = GingsengGame(this)
 			}
 		}
 
-		return thingy
+		if (thingy == null) {
+			throw Exception("Game type not found")
+		}
+
+		return thingy!!
 	}
 
 
