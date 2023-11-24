@@ -31,36 +31,35 @@ class GameTypeFactory {
 	// Ej. [{"moveNum":0,"player":"HOST","moveType":"--","promptTargetData":{}},{"moveNum":1,"player":"GUEST" ...
 	private val gingsengRGX = Regex("^\\[\\{\"moveNum\":\\d,")
 
-	fun getGameType(game: GameNotationResponse): GameType {
+	fun getGameType(game: GameNotationResponse, gameID: Int): GameType {
 
 		var thingy: GameType? = null
 
 		game.notation.apply {
 			contains(skudRGX).then {
-				println("Skud Match")
-				thingy = SkudGame(this)
+				// println("Skud Match")
+				thingy = SkudGame(this, gameID)
 			}
 			contains(vagabondRGX).then {
-				println("Vagabond Match")
-				thingy = VagavondGame(this)
+				// println("Vagabond Match")
+				thingy = VagavondGame(this, gameID)
 			}
 			contains(adevarRGX).then {
-				println("Adevar Match")
-				thingy = AdevarGame(this)
+				// println("Adevar Match")
+				thingy = AdevarGame(this, gameID)
 			}
 			contains(fireRGX).then {
-				println("Fire Match")
-				thingy = FireGame(this)
+				// println("Fire Match")
+				thingy = FireGame(this, gameID)
 			}
 			contains(gingsengRGX).then {
-				println("Gingseng")
-				thingy = GingsengGame(this)
+				// println("Gingseng")
+				thingy = GingsengGame(this, gameID)
 			}
 		}
 
-		if (thingy == null) {
-			throw Exception("Game type not found")
-		}
+		if (thingy == null)
+			thingy = UnknownGame(game.notation, gameID)
 
 		return thingy!!
 	}
